@@ -1,0 +1,86 @@
+Dive Into HTML5 by Mark Pilgrim
+
+2011-03-03
+
+Chapter 8:  Let's take this offline
+
+"At its simplest, an offline web application is a list of URLs - HTML, CSS, JavaScript, images, and any other kind of resource.  The home page of the offline web application points to this list, called a manifest file, which is just a text file located elsewhere on the web server.  A we browser that implements HTML5 offline applications will read the list of URLs from the manifest file, download the resources, cache them locally, and automatically keep the local copies up to date as they change.  When the time comes that you try to access the web application without a network connection, your web browser will automatically switch over to the local copies instead."
+
+There is a DOM flag that indicates when you are online vs offline.
+
+There are events that fire on the transitions.
+
+If your application creates data or saves state, its up to you to store that data locally (reference to Ch 7).
+
+/* Big surprise...no IE */
+
+<html manifest="/cache.manifest"> /* 404s from http://diveintohtml5.org/cache.manifest.  Why? */
+
+The cache manifest file is divided into 3 sections...
+  1.  Explicit Section
+  2.  Fallback Section
+  3.  Online Whitelist Section
+
+Each section has its own header on its own line.  If the file has no headers other than the CACHE MANIFEST one, the whole file is part of the Excplicit Section
+
+/* Hmmm.  Does anyone remember COBOL (Environment Division, Configuration Section, ... ) */
+
+Explicit Section:
+  - CACHE header
+  - Resources in the Explicit section get downlaoded and cached locally.  These local copies will be used when the app goes offline
+
+Online Whitelist Section:
+  - NETWORK header
+  - Resources in the Online Whitelist Section are never cached and are not available offline.
+
+Fallback Section:
+  - FALLBACK header
+  - You can define substitutions for online resources that can't be cached or weren't cached successfully.
+
+/ * The explanation of FALLBACK:  / /offline.html is interesting */  You can "lazy load" pages as you visit them and your offline app grows as needed.
+
+/* Ugh.  I'm not too keen on '/' is a pattern that matches everything.  This is kind-of javascriptie, no?  Why not just use actual regex'es? */
+
+/* The network section doesn't make much sense either, or rather isn't really intuitive in its content */
+
+THE FLOW OF EVENTS
+
+"This is web development we're talking about.  Nothing ever Just Works"
+
+The DOM events that glue this all together occur on the window.applicationCache object
+  /html@manifest triggers a "checking" event
+  if your browser has never seen this page cache manifest before...
+    "downloading" event fires and the resources listed in cache manifest begin downloading
+    "progress" events fire periodically containing "x of y" stats
+    "cached" event fires as signal that the offline web application is fully cached and ready to be used offline.
+  else
+    if cache manifest has not changed
+      "noupdate" fires
+    else
+      "downloading" fires and we start re-downloading every single resource in cache manifest
+      "progress" events fire periodically containing "x of y" stats
+      "updateready" event fires as signal that the offline web application is fully cached and ready to be used offline.
+      !! YOU MUST MANUALY CALL window.applicationCache.swapCache() to give the user the new version of the app cache!!
+    end
+  end
+
+"error" event fires at any point along this process.
+
+
+THE FINE ART OF DEBUGGING, A.K.A. "KILL ME!  KILL ME NOW!"
+
+/* uh oh */
+
+If anything in the cache manifest fails, a single "error" event will fire with no indication of what actually went wrong.
+
+3 step process that browser uses to determine if the cache manifest has changed
+  1.  Normal HTTP semantics Expires and Cache-Control headers
+  2.  If the browser requests the file (due to Expires or Cache-Control triggering this), then the Server gets to assert 304 Not Modified if the last modified date it has is the same as the last modified date the Browser sent
+  3.  HTTP 200 OK is the server telling the browser the file has changed and here is the new one.  The Cache-Control and Expires headers get updated.  Once downloaded, you browser checks the copy for equivalence.  If its the same IT WONT RE-DOWNLOAD ANY OF THE RESOURCES.
+
+/* He recommends that you make your cache manifest files NOT CACHEABLE, relying upon the browsers final check for content equivalence.  He goes on to suggest tuning this to specific files to avoid disabling cache for everything is a pretty good idea. */
+
+/* The article at http://www.html5rocks.com/tutorials/appcache/beginner/ suggests that you use the Comments to trigger the "content equivalence" failure is a pretty good idea */
+
+Firefox "about:cache" page shows where the cache is and whats in it.
+

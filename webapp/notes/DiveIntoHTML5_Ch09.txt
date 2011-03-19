@@ -1,0 +1,10 @@
+Dive Into HTML5 by Mark Pilgrim
+
+2011-03-18
+
+Chapter 9:  A Form of Madness
+
+HTML5 defines a dozen new input types
+
+All of these new input types degrade gracefully in every browser.  Even IE6.
+

@@ -1,0 +1,52 @@
+Dive Into HTML5 by Mark Pilgrim
+
+2011-02-21
+
+Chapter 6:  You are here (and so is everybody else)
+
+
+Geolocation API states "User Agents must not send location information to Web sites without the express permission of the user"
+
+The Latitude and Longitude are available to JavaScript on the page, which in turn can send it back to the remote web server and do fancy location-aware things
+
+The Geolocation API centers around a new property on the global navigator object:  navigator.geolocation
+
+FireFox opt-in infobar provides a "Remember for this site" option.  If I click this, how do I change my mind later?
+
+I like the "blocking" aspect...everything stops while its waiting for your answer
+
+  navigator.geolocation.getCurrentPosition( callbackFunction, errorHandler );
+
+  function callbackFunction( position ) {
+    var latitude = position.coords.latitude;
+    var longitude = position.coords.longitude;
+    var timestamp = position.timestamp;
+  }
+
+  function errorHandler( err ) {
+    if ( err.code == 1 ) {
+      // PERMISSION_DENIED
+    } else if ( err.code == 2 ) {
+      // POSITION_UNAVAILABLE
+    } else if ( err.code == 3 ) {
+      // TIMEOUT
+    } else if ( err.code == 0 ) {
+      // UNKNOWN ERROR
+    } else {
+      // WE SHOULD NEVER GET HERE...YEAH...RIGHT.
+    }
+  }
+
+Can you keep it fresh by polling or something?
+
+Wow.  coords has a bunch of stuff to aid navigation.
+
+getCurrentPosition takes a 3rd argument, a PositionOptions argument, allowing you to request a specific accuracy, timeout, or maximum age.
+
+Its kind-of cool how the PostionOptions work...
+  navigator.geolocation.getCurrentPosition( success_callback, error_callback, {maximumAge: 75000} );
+
+Oooh...Oooh....watchPosition() function has the same structure as getCurrentPosition()...no need to actively poll.
+
+Google Gears gives Geolocation support to IE
+

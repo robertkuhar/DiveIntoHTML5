@@ -1,0 +1,68 @@
+Dive Into HTML5 by Mark Pilgrim
+
+2011-03-02
+
+Chapter 7:  The Past, Present, and Future of Local Storage for Web Applications
+
+"For native apps, the OS typically provides an abstraction layer for storing and retrieving app-specific data like preferences or runtime state"
+
+Web apps, client side, have only ever had Cookies.
+
+Cookies suck because...
+  1.  Cookies included in every HTTP request; inefficient as well as insecure
+  2.  Cookies are limited to about 4K
+
+What we want is...
+  1.  A lot of storage
+  2.  On the client
+  3.  Persistent beyond page refresh
+  4.  Isn't transmitted to the server
+      /* Hmm...ever? */
+ 
+IE had "DHTML Behaviors"
+  /* The MSDN page makes them sound cool */
+  userData
+    - up to 64KB of data per domain
+    - heirarchical XML
+
+2002 Flash 6 gets "Local Shared Objects"
+  - aka. Flash Cookies
+  - Flash objects up to 100 KB of data per domain
+  - prompts the user to grant increments beyond that
+  - Flash 8 make it not too difficult to leverage this storage from JavaScript
+
+2007 Google Gears
+  - Gears provides an API to an embedded SQL database
+  - This database is based on SQLite
+  - Unlimited amounts of data per domain with the user's permission.
+  - /* SQLite is Transactional, why isn't the VANTOS standalone app? */
+
+By 2009 Dojo has unified the interface to all the different APIs and auto-detects Flash, Gears, AIR, or HTML5.
+
+HTML5 set out to provide a "standardized API, implemented natively and consistently in multiple browsers, without having to rely on third-party plugins"
+
+Introducing HTML5 Storage
+  - Formal name is "Web Storage"
+  - Aka. "Local Storage" or "DOM Storage"
+  - HTML5 Storage is a way for web pages to store named key/value pairs locally, within the client we browser
+  - it is implemented natively in the browsers; no third-party plug-ins required
+
+From JavaScript you access HTML5 Storage through the localStorage object on the global window object.
+
+/* So the fact that localStorage is global means that multiple web-pages from the same domain have to essentially "standardize" ...must be a bitch for the likes of google and amazon.  Note how his example essentially namespaces the keys.  With JS can you ask the full URL that your page is on?  That would be an interesting way to confirm your uniqueness within the domain, no? */
+
+Limitations are 5MB per domain, QUOTA_EXCEEDED_ERR when you go over with no way to get more storage from the user
+
+It is interesting how the key/value is <String,String>
+
+WebDB:  Web SQL Database
+  - Ugh.  No Firefox or IE...but everyone else
+  - it is at an impasse as a "standard" due to only a single implementation; SQLite
+
+WebSimpleDB
+  - aka. IndexedDB
+  - has Transactions, but no structured query language
+  - You navigate the objects directly
+  - IndexedDB is in Firefox 4
+  - MS and Google are considering implementing it
+

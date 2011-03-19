@@ -1,0 +1,36 @@
+Dive Into HTML5 by Mark Pilgrim
+
+2011-02-06
+
+
+Chapter 4:  Let's Call It A Draw(ing Surface)
+
+Each canvas will show up in the DOM, and each canvas maintains its own state.
+
+var b_context = b_canvas.getContext( "2d" );
+Looks familiar, doesn't it?
+
+Each drawing context remembers its own properties as long as the page is open, unless you do something to reset it.
+
+Clear the context by resetting width or height?!?  That's, uh, undexpected.  Why isn't this b_context.reset() or something?
+
+Isn't this clearing behavior going to make stretchable canvases pretty much impossible?
+
+The Path methods are interesting, as is the "ink" methods and their effect
+
+"This is the result" just below context.stroke(); doesn't show anything (Firefox, Chrome, Safari).
+It seems that the code to perform this is missing...WINGDING CHALLENGE?!
+/* AHA!  Its not that the image was missing, its that the color was not visible on the cheap dell 15" */
+
+I really don't quite get the whole "why start at 0.5" thing.  It seems that the same is not true in the y-axis?
+
+A gradient has two or more color stops
+
+drawImage( image, dx, dy ) /* has potential...you can get stuff in quickly, and then do stuff like put bullet holes on it */
+
+Of course, IE doesn't support <canvas>...what to do?  Some hack produced excanvas.js which appears to adapt <canvas> to IE's VML
+
+Ooh...Ooh...gCanvasElement.addEventListener( "click", halmaOnClick, false )
+Ahhh!  The coordinates are relative to the DOCUMENT, not the canvas?!?
+
+Eric will do "You Are Here (And So Is Everybody Else)".  George will do "Video in a Flash (Without That Other Thing)"

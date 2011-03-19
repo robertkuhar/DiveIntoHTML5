@@ -1,0 +1,191 @@
+Dive Into HTML5 by Mark Pilgrim
+
+2011-01-09
+
+Introduction:  "Five Things you Should Know About HTML5"
+
+1.  HTML5 is not one big thing; it is a collection of individual features
+
+"The HTML5 Specification...defines how those angle brackets interact with JavaScript, through the...DOM"
+  - "HTML5 doesn't just define a <video> tag; there is also a corresponding DOM API for video objects in the DOM"
+
+2.  You don't need to throw anything away
+  - "If your web application worked yesterday in HTML 4, it will still work today in HTML5.  Period."
+  - HTML5 supports all the form controls from HTML 4, but there are new controls as well
+    - sliders
+    - date pickers
+    - email type input /* The controls have become content aware...OR...it is up to you to make them content aware */
+  - Chapter 9 will cover the gory details
+
+3.  It's easy to get started
+  - "Upgrading" to HTML5 can be as simple as changing your doctype/
+  - In HTML5, there is only one doctype: <!DOCTYPE html>
+  - New semantic elements include <article>, <section>, <header>, <footer>
+  - Chapter 3 covers these
+
+4.  It already works
+  - HTML5 is already well-supported in most modern browsers
+  - As always, there is a browser compatiblity chart to be considered.
+
+5.  It's here to stay
+
+Chapter 1:  How did we get there?
+
+"Implementations and specifications have to do a delicate dance together. You don't want implementations to happen before the specification is finished, because people start depending on the details of implementations and that constrains the specification. However, you also don't want the specification to be finished before there are implementations and author experience with those implementations, because you need the feedback. There is unavoidable tension here, but we just have to muddle on through." - Mozilla Developer
+
+MIME Types
+  - Headers are important because they tell your browser how to interpret the page markup that follows.
+  - "Content-Type" is the most important header in the case of HTML pages
+    - This header is THE ONLY THING that determines what a particular resource truly is, and therefore how it should be rendered"
+  - "The web runs on MIME types"
+  - "...as a general rule of thumb, everything you've ever looked at on the web - HTML pages, images, scripts, videos, PDFs, anything with a URL - has been served to you with a specific MIME type in the Content-Type header
+
+/* the timeline around conversations of <img> are interesting, but I don't really see the relevance to what HTML5 is...I'm skipping it in my notes */
+
+"...Most of the successful versions of HTML have been "retro-specs", catching up to the world while simultaneously tring to nudge it in the right direction..."
+
+"...HTML has never been pure, and all attempts to purify it have been spectacular failures, matched only by the attempts to replace it."
+
+"...<img> exists because Marc Andreeessen shipped one, and shipping code wins"
+
+Timeline:
+
+1997 - HTML 4.0
+1998 - XHTML 1.0
+     - new MIME type for XHTML documents, application/xhtml+xml
+1999 - XHTML Extended Forms
+     - "...the goals for the next generation of forms are incompatible with preserving backwards compatibility woth browsers designed for earlier versions of HTML..."
+     - This effort becomes XForms
+2001 - XHTML 1.1
+     - XHTML documents now MUST serve with a MIME type of "application/xhtml+xml"
+
+EVERYTHING YOU KNOW ABOUT XHTML IS WRONG
+  - "...by some estimates, 99% oof the HTML pages on the web today have at lease one error in them"
+  - XHTML had "draconian error handling" where violations of well-formedness resulted in no page rendering at all.
+  - web-authors basically ignored "application/xhtml+xml".  They made the content of their pages compliant, but never bothered with the MIME type change so-as to avoid the error check.
+  - XHTML 2.0 never finalized
+
+A COMPETING VISION
+
+June 2004, "Workshop on Web Applications and Compound Documents"...an evolution of the existing HTML 4 standard to include new features for modern web application developers
+
+7 principals
+  1.  Backwards Compatibility, clear migration path
+
+  2.  Well-defined error handling
+
+  3.  Users should not be exposed to authoring errors
+      "...error handling should for the most part be defined in terms of graceful error recovery (as in CSS), rather than obvious and catostrophic failure (as in XML)"
+
+  4.  Practical Use
+
+  5.  Scripting is here to stay
+
+  6.  Device-specific profiling should be avoided
+
+  7.  Open Process
+
+
+/* Note how 2 of the 7 principals are around Error Handling and the end-user experience */
+
+WHAT WORKING GROUP
+  - /* Who are they?  I didn't even know! */
+  - Their main focus appears to be extending HTML4 Forms to support new features...without breaking backwards compatibility with existing content.
+**- "Instead of scrapping over a decade's worth of investment in HTML and making 99% of existing web pages unusable, the WHAT Working Group decided to take a different approach: documenting the "forgiving" error-handling algorithms that browsers actually used."
+
+  - "...the WHAT Working Group successfully documented how to parse HTML in a way that is compatible with existing web content.  Nowhere in the final algorithm is there a step that mandates that the HTML consumer should stop processing and display an error message to the end user."
+
+  - "Web Forms 2.0" added new types of controls to HTML form
+  - "Web Applications 1.0" added concept of a direct-mode drawing canvas and native support for audio and video WITHOUT PLUGINS.
+
+By October 2006 it was clear that the WHAT group had momentum that W3C and XHTML 2.0 did not.  W3C would end up working with the WHAT group to evolve HTML.  Tim Berners-Lee announced it in October 2006.
+
+"One of the first things the newly re-chartered W3C HTML Working Group decided was to rename "Web Applications 1.0" to "HTML5." And here we are, diving into HTML5."
+
+!The ones that win are the ones that ship.
+
+
+Chapter 2:  Detecting HTML5 Features
+
+"A quick peek at the DOM will tell you which features are supported..."
+
+4 techniques
+  1.  Check if a certain property exists on a global object
+  2.  Create an element, then check if a certain property exists on that element
+  3.  Create an element, check if a certain method exists on that element, then call the method and check the value it returns
+  4.  Create an element, set a property to a certain value, then check if the property has retained its value
+
+/* It kind-of bugs me that you end up checking for side-effects, but, oh well */
+
+Modernizr is up to 1.6.
+
+<canvas>
+  - "a resolution-dependent bitmap canvas that can be used for rendering graphs, game graphics, or other visual images on the fly"
+  - A rectangle in your page where you can JavaScript draw anything
+  - Checking for the Canvas API uses Techinque #2
+  - If the Canvas API is there, the Canvans Text API may also be there
+
+<video>
+  - Video used to be impossible without plug-ins
+  - Detection uses Technique #2
+  - To play a video, your browser needs to understand the "language" in which the video was written
+    Codec - the algorithm used to encode the video into a stream of bits
+    We have come down to just 2 codecs (why doesn't he name them?)
+      1. Patented one for Safari and the iPhone
+      2. Free and Open on for Chromium and Firefox
+
+  - Checking for Video Format uses Technique #3
+  - /* The detection of h264 looks rather fragile */
+  - /* Ditto for ogg and webm */
+  - The Modernizr is looking better and better.  What does the GWT provide?
+  - Firefox can't do H.264 but Safari can.  Safari can't do Ogg but Firefox can.  Ahh.  The browser wars rage on.
+
+Local Storage
+  - Detection Technique #1
+  - Not really secure, today, but functions something like cookies in that only the same-origin sites can read your database
+  
+Web Workers
+  - "...standard way for browsers to run JavaScript in the background."
+  - Detection Technique #1
+  
+Offline web applications
+  - start out as online web applications
+  - The first time you visit a site, the server tells your browsers which files it needs in order to work offline
+  - Detection Techinque #1
+  
+Geolocation
+  - /* Holy shit...geolocation is frighteningly accurate.  How do I turn it off? */
+  - Detection Technique #1
+  
+Input Types
+  - /* Wow...firefox supports NONE OF THEM according to his compatibility thingy */
+  - Detection Technique #4
+  - There are a bakers dozen new Input types
+     <input type="search"> for search boxes
+     <input type="number"> for spinboxes
+     <input type="range"> for sliders
+     <input type="color"> for color pickers
+     <input type="tel"> for telephone numbers
+     <input type="url"> for web addresses
+     <input type="email"> for email addresses
+     <input type="date"> for calendar date pickers
+     <input type="month"> for months
+     <input type="week"> for weeks
+     <input type="time"> for timestamps
+     <input type="datetime"> for precise, absolute date+time stamps
+     <input type="datetime-local"> for local dates and times
+
+Placeholder Text
+  - Placeholder Text is displayed inside a field as long as the field is empty and not focused
+  - Detection Technique #2
+  
+Form Autofocus
+  - The autofocus attribute moves the focus to a particular input field
+  - Detection Technique #2
+
+Microdata
+  - Standardized way to provide additional semantics in your web pages
+  - /* Uh...why isn't this called Meta-data? I'm not sure I'm going to like this one...you can create your own vocabularies. */
+  - Detection Technique #1
+
+Apendix A is cool:  http://diveintohtml5.org/everything.html

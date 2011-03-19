@@ -1,0 +1,143 @@
+Dive Into HTML5 by Mark Pilgrim
+
+2011-02-20
+
+Chapter 5:  Video on the Web
+
+<video> element has been added.
+
+The background...
+  AVI and MP4 are just Video Container Formats
+  Video Container Formats only define how to store things within them, not what kinds of data are stored
+
+  A video file usually contains multiple tracks
+    1.  A Video Track
+    2.  One or more audio tracks
+
+  The audio tracks contain markers for synchronization
+
+  The tracks have meta-data (aspect ratio, the language, etc)
+
+  Containers also have meta-data (title, episode numbers, etc)
+
+  Container Formats
+    1.  MPEG 4 (.mp4 or .m4v)
+    2.  Flash Video (.flv)
+    3.  Ogg (.ogv)
+        Open standard, open source-friendly (what does this mean?)
+        Unencumbered by any known patents
+        Firefox 3.5, Chrome 4, Opera 10.5
+        Ogg video is called Theora
+        Ogg audio is called Vorbis
+        VLC plays Ogg
+    4.  WebM
+        New kid in town
+        Designed to be used exclusively with VP8 video codec and Vorbis audio codec
+        Chromium, Google Chrome, Mozilla Firefox, Opera.
+        Adobe will support this in a future Flash Player
+    5.  Audio Video Interleave (.avi)
+
+  Video Codecs
+    Video Codec is the algorithm by which a video stream is encoded
+    There are tons of video codecs.  The 3 most relevant are H.264, Theora, VP3
+
+    1.  H.264
+        aka.  MPEG-4 part 10, MPEG-4 AVC, MPEG-4 Advanced Video Coding
+        Standardized in 2003
+        Splits into Profiles, which define a set of optimal features that trade complexity for file size
+        The Wikipedia link has 16 separate Profiles defined
+        Most H.264 decoding occurs on a dedicated chip on anything other than a PC.
+        H.264 is patent-encumbered
+
+    2.  Theora
+        Evolved from VP3 codec
+        Royalty free and unencumbered by any known patent (beyond the royalty-free VP3 patents)
+        Standardized in 2004 and frozen
+        Version 1.0 is Nov 2008
+        Version 1.1 is Sep 2009
+        Theora most often seen in an Ogg container
+        All major Linux distros support Theora out-of-the-box
+
+    3.  VP8
+        Has its roots in VP3 via the company On2.
+        Produces output on par with H.264 High Profile while maintaining low decoding complexity on par with H.264 Baseline.
+        Google open-sourced VP8 on its acquisition of On2
+        As of May 2010, VP8 is royalty-free, modern codec not encumbered by any known patents.
+
+
+  Audio Codecs
+    Audio Codec is the algorithm by which an audio stream is encoded
+    Author notes that's encoding human speech has a whole different set of criteria than encoding music
+    Audio Codecs have a concept of Channels
+    Most general purpose audoi codecs can handle two Sound Channels; Left and Right
+    There are even more audio codecs than video codecs.  The 3 most relevant are MP3, AAC, and Vorbis
+
+    1.  MP3
+        MPEG-1 Audio Layer 3
+        2 channels of sound
+        Bitrates vary; 64 kbps, 128 kbps, 192 kbps.
+        Higher bitrates mean larger files and better quality
+        The format allows for variable bitrate encoding.  The why is interesting (compress silent times...peak up when there are many instruments playing).
+        Open Source LAME projects is a good free encoder
+        Patent encumbered since 1991
+
+    2.  AAC
+        Advanced Audio Coding
+        Standardized 1997
+        Patent encumbered
+        Bitrate not at fixed intervals like MP3
+        Up to 48 channels of sound
+        Multiple profiles like H.264
+
+    3.  Vorbis
+        aka. Ogg Vorbis
+        Not encumbered by patents
+        Arbitrary number of channels
+
+One <video> element can link to multiple video files and the browser will choose the first video file it can actually play.
+
+IT IS UP TO YOU to know which browsers support which containers and codecs
+
+THERE IS NO SINGLE COMBINATION OF CONTAINERS AND CODECS THAT WORKS IN ALL HTML5 BROWSERS...you are going to need to encode your vidoe more than once.
+
+I like his recipe for success...
+
+   1. Make one version that uses WebM (VP8 + Vorbis).
+   2. Make another version that uses H.264 baseline video and AAC "low complexity" audio in an MP4 container.
+   3. Make another version that uses Theora video and Vorbis audio in an Ogg container.
+   4. Link to all three video files from a single <video> element, and fall back to a Flash-based video player.
+
+
+H.264 has licensing costs
+
+Miro Video Converter is an OSS, GPL program for encoding video in multiple formats
+
+Firefogg is an OSS, GPL Firefox extension for encoding Ogg video
+
+FFMPEG2THEORA is OSS, GPL application for encoding Ogg video in batches.
+
+Handbrake is OSS, GPL application for encoding H.264 video
+  It can run both interactive/graphical or commandline/batch
+
+
+<video src="pr6.webm" width="320" height="240"></video>
+  The <video> element has methods like play() and pause(), a property called "currentTime" as well as "volume" and "muted" properties.  You create a controller however you like and poke the methods and properties of the <video> element directly.
+
+/* I like the commentary and practical conclusion around "preload" and "autoplay".  Especially how the presence of these standard attributes ultimately lead to better end-user control */
+
+<video width="320" height="240" controls>
+  <source src="pr6.mp4"  type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'>
+  <source src="pr6.webm" type='video/webm; codecs="vp8, vorbis"'>
+  <source src="pr6.ogv"  type='video/ogg; codecs="theora, vorbis"'>
+</video>
+
+The type attribute is complicated
+
+VIDEO FILES MUST BE SERVED WITH THE PROPER MIME TYPE!
+  Apache HTTPD uses AddType directive in httpd.conf or .htaccess files
+
+Ugh...nest an <object> inside of a <video> to cover the case of older IE not supporting HTML5.  I WON"T STAND FOR IT, I tell you!  Although the HTML5 "ignore this cruft that is there for just older browsers" is GENIUS (and a nod to the practical).
+
+OMG.  The video is a trip down memory lane.  He totally nails the noise an Apple II floppy drive mades on boot up.
+
+
