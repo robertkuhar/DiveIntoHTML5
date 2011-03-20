@@ -8,3 +8,47 @@ HTML5 defines a dozen new input types
 
 All of these new input types degrade gracefully in every browser.  Even IE6.
 
+Placeholder Text
+  Chrome, Safari, and Andriod OK
+  Firefox NG
+
+Autofocus
+  Chrome, Safari OK
+  Android does autofocus, but you don't really get enough visual feedback that this is what occurred
+  Firefox NG
+  The fallback logic is interesting
+
+Email
+  Chrome, Safari, Firefox, Android OK, but nothing special.  Just a text field
+  
+URL
+  Chrome, Safari, Firefox, Android OK, but nothing special.  Just a text field
+
+Number
+  Chrome, Safari present a spinner and do the step logic, but you can enter, by keyboard, a number that violates the range
+  Android presents no spinner, but give a numeric virtual keyboard upon selection
+  Firefox NG
+  Javascript has gotten into the act with input.stepUp, stepDown, and valueAsNumber
+
+Range
+  Chrome, Safari present a slider and do the step logic, I suspect a value outside the range is legit
+  Android DOES NOTHING...NO CONTROL AT ALL!
+  Firefox NG
+  This one pretty clearly breaks the assertion "you can start using this immediately"
+
+Date...DateTime-Local
+  Chrome works OK, but not really intuitive or friendly
+  Safari has some level of support, but it sucks.  I keep getting back to 1582!
+  Android NG
+  Firefox NG
+
+Search
+  Chrome and Safari render it uniquely
+  Anroid and Firefox don't render it unqiquely
+  
+Color
+  Chrome, Safari, Firefox, Android NG
+  
+
+Pick up at "Form Validation"
+
