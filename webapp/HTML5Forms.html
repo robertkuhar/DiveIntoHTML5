@@ -1,0 +1,31 @@
+<html lang="en">
+One of Each
+<form validate>
+Placeholder: <input name="q" placeholder="Any darn thing you want goes here"/>
+<br/>
+  EMail: <input type="email" size="20" />
+<BR/>
+Number: <input type="number"
+       min="0"
+       max="10"
+       step="2"
+       value="6" required/>
+<BR/>
+URL: <input autofocus type="url" value="http://www.google.com.$" required/><-- Autofocus here if it is supported.       
+<BR/>
+Range: <input name="r" type="range" min="1" max="11" value="9"/>
+<BR/>
+Date: <input name="birthday" type="date"/> also type="date", "month" "week" "time" "datetime" "datetime-local"
+<BR/>But no localized format dd/mm/yyyy vs. mm/dd/yyyy, only ISO-8601 yyyy-mm-dd
+<BR/>
+Search: <input name="search" type="search"/>
+<BR/>
+Color: <input name="color" type="color" required/>
+<BR/>
+Required name: <input name="yourname" required/> <-- I want my own message for requied fields.
+<BR/>
+<input type="submit" value="Go"/>
+</form>
+</html>
+
+

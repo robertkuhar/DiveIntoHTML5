@@ -49,6 +49,15 @@ Search
 Color
   Chrome, Safari, Firefox, Android NG
   
+Form Validation
+  HTML5 can never replace server-side validation
 
-Pick up at "Form Validation"
+  Email validation is unbelievably complicated.
+
+  Only Opera appears to be doing any of this today.  Firefox 4 will get some, but its not released, is it?
+  Lovely "Safari and Chrome have shipped an incomplete implementation that may trip you up: they validate form controls, but they don't offer any visible feedback when a form field fails validation. In other words, if you enter an invalid (or improperly formatted) date in a type="date" field, Safari and Chrome will not submit the form, but they won't tell you why they didn't submit the form."
+
+Required Fields
+  None of Firefox 3.6, Safari, or Chrome seem to do "required".
+  
 
