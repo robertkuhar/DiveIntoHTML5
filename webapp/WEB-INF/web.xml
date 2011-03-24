@@ -21,8 +21,16 @@
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
+    <servlet>
+        <servlet-name>RequestDumper</servlet-name>
+        <servlet-class>org.rekdev.RequestDumper</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>def</servlet-name>
         <url-pattern>/</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RequestDumper</servlet-name>
+        <url-pattern>/RequestDumper</url-pattern>
     </servlet-mapping>
 </web-app>

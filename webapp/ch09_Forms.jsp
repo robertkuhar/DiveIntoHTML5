@@ -6,7 +6,7 @@
 </head>
 <body>
   <h1>Dive Into HTML5: No. 9. A Form of Madness</h1>
-  <form action="ImageMaker">
+  <form action="RequestDumper">
     <table>
       <tr>
         <td>Placeholder</td>
